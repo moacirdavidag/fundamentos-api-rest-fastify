@@ -1,0 +1,1 @@
+API básica com Fastify e sem Typescript, inicialmente, para mentoria de fundamentos básicos sobre APIs REST (exemplo utilizando o Fastify) no Poder360.
