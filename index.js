@@ -1,19 +1,13 @@
 import Fastify from "fastify";
 
-import { criarUsuario, listarUsuarioPorId, listarUsuarios } from "./src/routes/user-routes.js";
+import userRoutes from "./src/routes/user-routes.js";
 
 const fastify = Fastify({
   logger: true,
 });
 
 
-fastify.register(listarUsuarios, {
-    prefix: '/usuarios'
-})
-fastify.register(listarUsuarioPorId, {
-    prefix: '/usuarios'
-})
-fastify.register(criarUsuario, {
+fastify.register(userRoutes, {
     prefix: '/usuarios'
 })
 
