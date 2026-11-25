@@ -4,6 +4,8 @@ const fastify = Fastify({
     logger: true
 });
 
+// Separação de responsabilidades de uma API
+
 // Funções declaradas normalmente
 
 fastify.get('/', function (request, reply) {
@@ -11,6 +13,10 @@ fastify.get('/', function (request, reply) {
         resposta: 'Olá, Eduardo e Moacir David! :D',
         mensagem: "Feliz natal!"
     })
+});
+
+fastify.get('/branch', (request, reply) => {
+    reply.send('Olá, estou na branch nova!');
 });
 // Arrow functions
 
