@@ -5,20 +5,10 @@ import UserControlller from "../controllers/user-controller.js";
 
 const userController = new UserControlller();
 
-function listarUsuarios(app) {
-  return app.get("/", userController.listarUsuariosController);
+export default function userRoutes(app) {
+  app.get("/", userController.listarUsuariosController);
+  app.get('/:id', userController.listarUsuarioPorIdController);
+  app.post('/', userController.criarUsuarioController)
 }
 
-function listarUsuarioPorId(app) {
-    return app.get('/:id', userController.listarUsuarioPorIdController);
-}
 
-function criarUsuario(app) {
-    return app.post('/', userController.criarUsuarioController)
-}
-
-export {
-    listarUsuarios,
-    listarUsuarioPorId,
-    criarUsuario
-}
