@@ -1,10 +1,33 @@
 import Fastify from "fastify";
 
+import { criarUsuario, listarUsuarioPorId, listarUsuarios } from "./src/routes/user-routes.js";
+
 const fastify = Fastify({
   logger: true,
 });
 
+
+fastify.register(listarUsuarios, {
+    prefix: '/usuarios'
+})
+fastify.register(listarUsuarioPorId, {
+    prefix: '/usuarios'
+})
+fastify.register(criarUsuario, {
+    prefix: '/usuarios'
+})
+
 // Separação de responsabilidades de uma API
+
+// GET /usuarios 
+// GET /usuarios/:id // parâmetro de url
+// GET /usuarios?idade=18&cidade=bsb // query param
+
+// POST /usuario
+// PUT /usuario/:id 
+// PATCH /usuario/:id
+// DELETE /usuario/:id 
+
 
 // Funções declaradas normalmente
 
@@ -13,54 +36,6 @@ fastify.get("/", function (request, reply) {
     resposta: "Olá, Eduardo e Moacir David! :D",
     mensagem: "Feliz natal!",
   });
-});
-
-fastify.get("/branch", (request, reply) => {
-  reply.send("Olá, estou na branch nova!");
-});
-
-fastify.get("/ola", (request, reply) => {
-    reply.send("Olá, mundo!");
-});
-
-// Arrow functions
-
-const pessoas = [
-  {
-    id: 1,
-    nome: "Eduardo",
-    idade: 19,
-    cidade: "Brasília",
-    setor: "Redação",
-  },
-  {
-    id: 2,
-    nome: "Moacir David",
-    idade: 24,
-    cidade: "Marizópolis",
-    setor: "Desenvolvimento",
-  },
-];
-
-fastify.get("/pessoas/:id", (request, reply) => {
-  const id = request.params.id;
-
-  fastify.log.info(`Buscando pessoa com id: ${id}`);
-
-  const pessoa = pessoas.find((pessoa) => pessoa.id == id);
-
-  fastify.log.info(`Pessoa encontrada: ${JSON.stringify(pessoa)}`);
-
-  if (pessoa.setor !== "Redação") {
-    fastify.log.error(
-      `Tentativa de acesso não autorizado à pessoa com id: ${id}`,
-    );
-    reply
-      .status(403)
-      .send("Proíbido consultar pessoas que não são da redação!");
-  }
-
-  reply.send(pessoa);
 });
 
 // Instanciar o servidor
