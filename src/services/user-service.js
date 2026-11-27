@@ -1,29 +1,17 @@
-let usuarios = [
-  {
-    id: 1,
-    nome: "Mário Eduardo",
-    idade: 19,
-    cidade: "Brasília",
-    hobbies: "Academia",
-  },
-  {
-    id: 2,
-    nome: "Moacir David",
-    idade: 24,
-    cidade: "Marizópolis",
-    hobbies: "Jogos, plantas, leitura, escrita",
-  },
-];
+import UsuarioRepository from "../repositories/user-repository.js";
 
+// É responsável por tratar os dados / regras de negócio
 export default function UsuarioService() {
+  const usuariosRepository = new UsuarioRepository();
   const listarUsuarios = () => {
+    const usuarios = usuariosRepository.listarUsuarios();
     return usuarios;
   };
 
   const obterUsuarioPorId = (id) => {
     const idNumerico = Number(id);
 
-    const usuario = usuarios.find((user) => user.id === idNumerico);
+    const usuario = usuariosRepository.obterUsuarioPorId(idNumerico);
 
     return usuario ?? null;
   };
@@ -33,11 +21,7 @@ export default function UsuarioService() {
 
     const { nome, idade, cidade, hobbies } = usuario;
 
-    let idUsuarios = usuarios.length;
-
-    const idUsuario = idUsuarios + 1;
-
-    const usuarioCriado = {
+    const usuarioObjeto = {
       nome,
       idade,
       cidade,
@@ -52,10 +36,7 @@ export default function UsuarioService() {
       return "idade_obrigatoria";
     }
 
-    usuarios.push({
-      ...usuario,
-      id: idUsuario,
-    });
+    const usuarioCriado = usuariosRepository.criarUsuario(usuarioObjeto);
 
     return usuarioCriado;
   };
@@ -63,28 +44,21 @@ export default function UsuarioService() {
   const excluirUsuario = (id) => {
     const idNumerico = Number(id);
 
-    const usuarioExiste = obterUsuarioPorId(id);
+    const usuarioExiste = obterUsuarioPorId(idNumerico);
 
     if (!usuarioExiste) {
       return "usuario_nao_existe";
     }
 
-    const indiceUsuarioParaExcluir = usuarios.findIndex(
-      (user) => user.id === idNumerico,
-    );
+    const resposta = usuariosRepository.excluirUsuario(idNumerico);
 
-    usuarios.splice(
-      indiceUsuarioParaExcluir,
-      1,
-    );
-
-    return usuarios;
+    return resposta;
   };
 
   return {
     listarUsuarios,
     obterUsuarioPorId,
     criarUsuario,
-    excluirUsuario
+    excluirUsuario,
   };
 }
